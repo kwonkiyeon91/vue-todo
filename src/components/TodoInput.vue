@@ -18,9 +18,7 @@ export default {
     methods: {
         addTodo() {
             if (this.newTodoItem !== '') { // newTodoItem 이 무조건 값이 있을때
-                var obj = {completed: false, item: this.newTodoItem};
-
-                localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+                this.$emit('add-todo-item', this.newTodoItem);
                 this.clearInput();
             }
         },
