@@ -5,14 +5,32 @@
     <span class="addContainer material-symbols-outlined addBtn" v-on:click="addTodo">
         add
     </span>
+
+      <Modal v-if="showModal" @close="showModal = false">
+        <h3 slot="header">경고!</h3>
+
+        <div slot="body">
+            입력해주세요.
+        </div>
+
+        <div slot="footer">
+            <button class="modal-default-button closeModalBtn" @click="showModal = false;">확인</button>
+        </div>
+      </Modal>
   </div>
 </template>
 
 <script>
+import Modal from './common/Modal.vue'
+
 export default {
+    components: {
+        Modal
+    },
     data() {
         return {
-            newTodoItem: ""
+            newTodoItem: "",
+            showModal: false
         }
     },
     methods: {
@@ -20,6 +38,8 @@ export default {
             if (this.newTodoItem !== '') { // newTodoItem 이 무조건 값이 있을때
                 this.$emit('add-todo-item', this.newTodoItem);
                 this.clearInput();
+            } else {
+                this.showModal = true;
             }
         },
         clearInput() {
@@ -55,5 +75,12 @@ input:focus {
     padding-top: 5px;
     box-sizing: border-box;
     vertical-align: middle;
+}
+.closeModalBtn {
+    border-radius: 5px;
+    background-color: #42b983;
+    color: white;
+    padding: 0.5rem 2rem;
+    border: none;
 }
 </style>
