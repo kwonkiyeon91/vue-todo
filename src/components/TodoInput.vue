@@ -36,7 +36,8 @@ export default {
     methods: {
         addTodo() {
             if (this.newTodoItem !== '') { // newTodoItem 이 무조건 값이 있을때
-                this.$emit('add-todo-item', this.newTodoItem);
+                // this.$emit('add-todo-item', this.newTodoItem);
+                this.$store.commit('addOneItem', this.newTodoItem);
                 this.clearInput();
             } else {
                 this.showModal = true;
