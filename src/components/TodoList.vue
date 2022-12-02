@@ -2,13 +2,14 @@
   <div>
     <transition-group name="list" tag="ul">
         <li v-for="(todoItem, index) in this.storedTodoItems" v-bind:key="todoItem.item" class="shadow">
-            <span class="checkBtn material-symbols-outlined" 
+            <span 
+                class="checkBtn material-symbols-outlined" 
                 v-bind:class="{checkBtnCompleted: todoItem.completed}" 
-                v-on:click="toggleComplete(todoItem, index)">
+                v-on:click="toggleComplete({todoItem, index})">
                 check_circle
             </span>
             <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
-            <span class="material-symbols-outlined removeBtn" v-on:click="removeTodo(todoItem, index)">
+            <span class="material-symbols-outlined removeBtn" v-on:click="removeTodo({todoItem, index})">
                 delete
             </span>
         </li>
@@ -17,28 +18,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {    
  methods: {
-    removeTodo(todoItem, index) {
-        // this.$emit('remove-item', todoItem, index);
-        this.$store.commit('removeOneItem', {todoItem, index});
-    },
-    toggleComplete(todoItem, index) {
-        // this.$emit('toggle-item', todoItem, index);
-        this.$store.commit('toggleOneItem', {todoItem, index});
-    }
+    ...mapMutations({
+        removeTodo: 'removeOneItem',
+        toggleComplete: 'toggleOneItem'
+    })
  },
  computed: {
-    // todoItems() {
-    //     return this.$store.getters.storedTodoItems
-    // },
     ...mapGetters(['storedTodoItems'])
-    // ,
-    // ...mapGetters({
-    //     todoItems: 'storedTodoItems'   // 위에도 todoItems으로 맞춰줘야 함
-    // })
  }
 }
 </script>
